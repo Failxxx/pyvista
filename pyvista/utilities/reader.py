@@ -987,6 +987,35 @@ class OpenFOAMReader(BaseReader, PointCellDataSelection, TimeReader):
         """
         return {name: self.patch_array_status(name) for name in self.patch_array_names}
 
+    @property
+    def case_type(self):
+        """The property indicates whether decomposed mesh or reconstructed mesh should be read.
+
+        Returns
+        -------
+        bool
+            If ``True``, reconstructed mesh should be read.
+
+        Examples
+        --------
+        >>> import pyvista
+        >>> from pyvista import examples
+        >>> filename = examples.download_cavity(load=False)
+        >>> reader = pyvista.OpenFOAMReader(filename)
+        >>> reader.case_type = False
+        >>> reader.case_type
+        False
+
+        """
+        return self.reader.GetCaseType()
+
+    @case_type.setter
+    def case_type(self, value):
+        if value:
+            self.reader.SetCaseType(1)
+        else:
+            self.reader.SetCaseType(0)
+
 
 class PLYReader(BaseReader):
     """PLY Reader for reading .ply files.
