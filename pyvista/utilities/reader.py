@@ -724,7 +724,7 @@ class EnSightReader(BaseReader, PointCellDataSelection, TimeReader):
 class OpenFOAMReader(BaseReader, PointCellDataSelection, TimeReader):
     """OpenFOAM Reader for .foam files."""
 
-    _class_reader = _vtk.vtkOpenFOAMReader
+    _class_reader = staticmethod(_vtk.lazy_vtkPOpenFOAMReader)
 
     def __init__(self, path):
         """Initialize OpenFOAMReader.
